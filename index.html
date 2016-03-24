@@ -33,9 +33,12 @@
 </li>
 <li>Implementations of tensor contractions rely on efficient use of linear algebra software.<br>
 </li>
-<li>The tensors are large, so I/O will be a requirement.<br>
-</li>
+<li>The tensors are large, so I/O will be a requirement.</li>
 </ul>
+
+<p>Kevin has already implemented an openmp version of this work that works well, but it would be nice to have the problem scale to more nodes.  The first task of this project is to implement a MPI version of this algorithm.  Kevin believes that this task can be done just by rewriting the code to use MPI rather than openmp. The algorithm only requires very little communication.  This is ideal for MPI.  However, a major complication is the use of I/O in MPI.  This seems to be the main technical challenge for this project.  </p>
+
+<p>The second aspect of Kevin's part of the project is to attempt to use a hybrid MPI/OpenMP approach.  MPI can be used to split the data up into large chunks and then openmp can be used to speed up the loops inside those chunks.</p>
 
 <p>Kevin's main difficulty in parallelizing the code is how to deal with the I/O that must occur.  As a first step, Kevin worked on using MPI to parallelize a part of the code that does not require I/O.  This seems to work well.</p>
 
