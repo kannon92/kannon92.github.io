@@ -17,7 +17,7 @@
 
     <section class="main-content">
       <h3>
-<a id="welcome-to-kevin-hannon-and-jeff-schribers-project-website" class="anchor" href="#welcome-to-kevin-hannon-and-jeff-schribers-project-website" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to Kevin Hannon and Jeff Schriber's Project website.</h3>
+<a id="welcome-to-kevin-hannon-and-jeff-schriebers-project-website" class="anchor" href="#welcome-to-kevin-hannon-and-jeff-schriebers-project-website" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to Kevin Hannon and Jeff Schrieber's Project website.</h3>
 
 <p>Our goal of this project is to parallelize some hotpots of our strongly correlated quantum chemistry program.  </p>
 
@@ -42,18 +42,12 @@
 
 <p>Kevin's main difficulty in parallelizing the code is how to deal with the I/O that must occur.  As a first step, Kevin worked on using MPI to parallelize a part of the code that does not require I/O.  This seems to work well.</p>
 
-<p> For an efficient description of static correlation, parallelization of the construction of reduced density matrices is essential. The reduced density matrices are multidimensional tensors (arrays) that essentially contain all information needed about the reference defined by the set of active orbitals. Specifically, for a given N-RDM (of dimension 2N), only configurations generated in the active space that differ by at most N electron substitutions will give non-zero contributions to the RDM. In combination with Kevin's method, the 1, 2, and 3 RDMS are needed.</p>
-
-<p> Jeff's phase of the project centers on the construction of these objects. Since the only non-zero contributions of the RDM come from configurations connected by a few electron exchanges, intelligent algorithms precompute lists that map determinants to each other, such that no time is wasted computing a lot of zeros. </p>
-
-<p> The difficulty in making these coupling lists is that (a) they can be very memory intensive and (b) they in general cannot be split up such that the RDM can be constructed on a distributed arcitechture. The first part of Jeff's work, which has already promising results, is to reformulate the algorithm such that these coupling lists can be computed in indepentend chunks to be passed across various nodes.</p>
-
-<p> With a proper algorithm, the implementation of MPI needs to be optimized such that the communication is kept minimal. This will likely be a challenging part of the project. Parallelization with OpenMP on this problem has been done and is much easier, so a hybrid approach would not add too much additional difficulty. </p>
-
-<With full parallelization of both aspects, we hope to study chemical systems larger than what conventional multireference methods currently can handle.
-
 <h3>
 <a id="week-1" class="anchor" href="#week-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Week 1</h3>
+
+<p>The parallelization of Kevin's part of the code has been completed in a naive way.  Kevin's program assumed that every MPI process will run a separate computation and write that information to disk.  All processesses would run separately until they reached the computational bottleneck.  At this point, MPI parallelization was used to reduce the computational cost.  This step is relatively simple to parallelize, but there is a serious memory limitation when I went to &gt;8 MPI processes. </p>
+
+<p>In order to remove this limitation, I decided to force my code to only run on one process for almost the entire program.  This way, I can reduce the memory requirement and send the information to the other processes when MPI is needed.  This requires some rewriting of my program, so I have been working on implementing these changes.    </p>
 
       <footer class="site-footer">
 
