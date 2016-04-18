@@ -62,7 +62,7 @@
 <p>Meanwhile, the computation of the RDMs can still be parallelized even using the old serial construction of the coupling lists. I plan to parallelize this in the next week to test if appreciable speedup can be achieved.    </p>
 
 <h3>
-<a id="week-2" class="anchor" href="#week-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Week 2</h3>
+<a id="week-2---3" class="anchor" href="#week-2---3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Week 2 - 3</h3>
 
 <p>Kevin found a difficulty with the previous approach.  He was having trouble with too large amounts of memory being used.  Kevin recently fixed this problem by forcing most of the code to run on one node except the computational hotspots.  The code now correctly runs with multiple MPI processes and can run across separate nodes.  A major limitation of this implementation is that it requires that the 3-index integrals are available to all of the processes.  Kevin is working on trying to figure out how to send separate blocks of the 3-index integrals, so broadcasting the entire array is not necessary.  </p>
 
